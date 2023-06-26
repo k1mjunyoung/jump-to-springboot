@@ -1,4 +1,4 @@
-package jumptospringboot;
+package jumptospringboot.answer;
 
 import java.time.LocalDateTime;
 
@@ -9,9 +9,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import jumptospringboot.question.Question;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.loader.plan.build.spi.QuerySpaceTreePrinter;
 
 @Getter
 @Setter
