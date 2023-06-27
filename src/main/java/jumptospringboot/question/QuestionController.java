@@ -21,6 +21,10 @@ import java.util.List;
 
 import jumptospringboot.answer.AnswerForm;
 
+// 페이징 라이브러리
+import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.RequestParam;
+
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/question")
@@ -30,11 +34,25 @@ public class QuestionController {
     // 레포지토리 대신 서비스를 사용하도록 수정
     private final QuestionService questionService;
 
+    /* 페이징 X
     @GetMapping("/list")
     public String list(Model model) {
         // QuestionController의 list 메서드에서 조회한 질문 목록 데이터를 "questionList"라는 이름으로 Model 객체에 저장
         List<Question> questionList = this.questionService.getList();
         model.addAttribute("questionList", questionList);
+        return "question_list";
+    }
+    */
+
+    // 페이징
+    // http://localhost:8080/question/list?page=0 처럼 GET 방식으로 요청된 URL에서 page값을 가져오기 위해
+    // @RequestParam(value="page", defaultValue="0") int page 매개변수가 list 메서드에 추가
+    // 템플릿에 Page<Question> 객체인 paging을 전달
+    // -> 기존에 전달했던 이름인 "questionList" 대신 "paging" 이름으로 템플릿에 전달했기 때문에 템플릿도 변경
+    @GetMapping("/list")
+    public String list(Model model, @RequestParam(value="page", defaultValue = "0") int page) {
+        Page<Question> paging = this.questionService.getList(page);
+        model.addAttribute("paging", paging);
         return "question_list";
     }
 

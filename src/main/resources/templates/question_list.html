@@ -20,7 +20,7 @@
                 loop.even - 루프의 짝수번째 순서인 경우 true
                 loop.current - 현재 대입된 객체 (예: 위의 경우 question과 동일)
                 -->
-                <tr th:each="question, loop : ${questionList}">
+                <tr th:each="question, loop : ${paging}">
                     <td th:text="${loop.count}"></td>
                     <td>
                         <!--question/detail/과 같은 문자열과 ${question.id}와 같은 자바 객체의 값을 더할 때는 반드시 다음처럼 |과 | 기호로 좌우를 감싸 주어야 한다.-->
@@ -31,6 +31,26 @@
                 </tr>
             </tbody>
         </table>
+        <!-- 페이징 처리 -->
+        <div th:if="${!paging.isEmpty()}">
+            <ul class="pagination justify-content-center">
+                <li class="page-item" th:classappend="${!paging.hasPrevious()} ? 'disabled'">
+                    <a class="page-link" th:href="@{|?page=${paging.number-1}|}">
+                        <span>이전</span>
+                    </a>
+                </li>
+                <li th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}"
+                    th:if="${page >= paging.number-3 and page <= paging.number+3}"
+                    th:classappend="${page == paging.number} ? 'active'" class="page-item">
+                    <a th:text="${page}" class="page-link" th:href="@{|?page=${page}|}"></a>
+                </li>
+                <li class="page-item" th:classappend="${!paging.hasNext()} ? 'disabled'">
+                    <a class="page-link" th:href="@{|?page=${paging.number+1}|}">
+                        <span>다음</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
         <a th:href="@{/question/create}" class="btn btn-primary">질문 등록</a>
     </div>
 </html>
