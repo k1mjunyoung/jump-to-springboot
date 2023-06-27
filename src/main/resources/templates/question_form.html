@@ -6,6 +6,11 @@
     th:object를 사용하여 폼의 속성들이 QuestionForm의 속성들로 구성된다는 점을 타임리프 엔진에 알려줘야 하기 때문
     -->
     <form th:action="@{/question/create}" th:object="${questionForm}" method="post">
+        <!-- th:replace 속성을 사용하면 공통 템플릿을 템플릿 내에 삽입할수 있다
+             div 엘리먼트를 form_errors.html 파일의 th:fragment 속성명이
+             formErrorsFragment인 엘리먼트로 교체하라는 의미
+        -->
+        <div th:replace="~{form_errors :: formErrorsFragment}"></div>
         <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
             <div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
         </div>
