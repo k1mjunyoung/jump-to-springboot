@@ -29,6 +29,10 @@ dependencies {
 	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 
+	// Spring Security
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6:3.1.1.RELEASE'
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
 	// compileOnly는 해당 라이브러리가 컴파일 단계에서만 필요한 경우에 사용한다.
