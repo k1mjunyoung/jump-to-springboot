@@ -33,8 +33,12 @@
             <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
                 <div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
             </div>
-            <textarea th:field="*{content}" rows="10" class="form-control"></textarea>
-            <input type="submit" value="답변등록" class="btn btn-primary my-2">
+            <!-- 로그인 상태가 아닌 경우 textarea 태그에 disabled 속성을 적용하여 입력을 못하게 -->
+            <textarea sec:authorize="isAnonymous()" disabled th:field="*{content}" rows="10" class="form-control" placeholder="로그인 해주세요!"></textarea>
+            <button sec:authorize="isAnonymous()" th:href="@{/user/login}" class="btn btn-primary my-2">로그인</button>
+            <!-- todo: 로그인하면 메인화면이 아니라 조회중이던 게시물로 가게 수정 -->
+            <textarea sec:authorize="isAuthenticated()" disabled th:field="*{content}" rows="10" class="form-control"></textarea>
+            <input sec:authorize="isAuthenticated()" type="submit" value="답변등록" class="btn btn-primary my-2">
         </form>
     </div>
 </html>

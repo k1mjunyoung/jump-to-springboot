@@ -13,6 +13,8 @@ import jumptospringboot.question.Question;
 import lombok.Getter;
 import lombok.Setter;
 
+import jumptospringboot.user.SiteUser;
+
 @Getter
 @Setter
 @Entity
@@ -28,4 +30,7 @@ public class Answer {
 
     @ManyToOne
     private Question question;
+
+    @ManyToOne
+    private SiteUser author;
 }

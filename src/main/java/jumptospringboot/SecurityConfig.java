@@ -15,8 +15,15 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+// 로그아웃 상태에서 글 작성 로그인 페이지로 이동시켜주는 라이브러리
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+
 @Configuration
 @EnableWebSecurity
+// SecurityConfig에 적용한@EnableMethodSecurity 애너테이션의 prePostEnabled = true 설정은
+// QuestionController와 AnswerController에서 로그인 여부를 판별하기 위해 사용했던
+// @PreAuthorize 애너테이션을 사용하기 위해 반드시 필요
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {

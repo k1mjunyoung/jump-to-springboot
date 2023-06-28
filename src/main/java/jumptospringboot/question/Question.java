@@ -12,8 +12,11 @@ import javax.persistence.Id;
 
 import javax.persistence.CascadeType;
 import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 
 import jumptospringboot.answer.Answer;
+import jumptospringboot.user.SiteUser;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -35,4 +38,8 @@ public class Question {
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
     private List<Answer> answerList;
+
+    // 여러개의 질문이 한 명의 사용자에게 작성될 수 있으므로 @ManyToOne 관계가 성립
+    @ManyToOne
+    private SiteUser author;
 }

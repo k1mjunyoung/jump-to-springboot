@@ -20,10 +20,15 @@ import org.springframework.validation.BindingResult;
 import java.util.List;
 
 import jumptospringboot.answer.AnswerForm;
+import jumptospringboot.user.SiteUser;
+import jumptospringboot.user.UserService;
 
 // 페이징 라이브러리
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.security.Principal;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 @Controller
 @RequiredArgsConstructor
@@ -33,6 +38,7 @@ public class QuestionController {
     // private final QuestionRepository questionRepository;
     // 레포지토리 대신 서비스를 사용하도록 수정
     private final QuestionService questionService;
+    private final UserService userService;
 
     /* 페이징 X
     @GetMapping("/list")
@@ -63,11 +69,13 @@ public class QuestionController {
         return "question_detail";
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/create")
     public String questionCreate(QuestionForm questionForm) {
         return "question_form";
     }
 
+    @PreAuthorize(("isAuthenticated()"))
     @PostMapping("/create")
     // questionCreate 메서드의 매개변수를 subject, content 대신 QuestionForm 객체로 변경
     // @Valid 애너테이션을 적용하면 QuestionForm의 @NotEmpty, @Size 등으로 설정한 검증 기능이 동작
@@ -76,11 +84,14 @@ public class QuestionController {
     // 만약 2개의 매개변수의 위치가 정확하지 않다면 @Valid만 적용이 되어 입력값 검증 실패 시 400 오류가 발생한다.
     // 입력값도 입력하지 않았기 때문에 QuestionForm의 @NotEmpty에 의해 Validation이 실패하여 다시 질문 등록 화면에 머물러 있을 것이다.
 
-    public String questionCreate(@Valid QuestionForm questionForm, BindingResult bindingResult) {
+    public String questionCreate(@Valid QuestionForm questionForm, BindingResult bindingResult, Principal principal) {
         if (bindingResult.hasErrors()) {
             return "question_form";
         }
-        this.questionService.create(questionForm.getSubject(), questionForm.getContent());
+
+        SiteUser siteUser = this.userService.getUser(principal.getName());
+
+        this.questionService.create(questionForm.getSubject(), questionForm.getContent(), siteUser);
         return "redirect:/question/list";
     }
 }
