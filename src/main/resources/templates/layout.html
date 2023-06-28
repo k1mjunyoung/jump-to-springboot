@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org">
+<html lang="ko-kr" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org">
     <head>
         <!-- Required meta tags -->
         <meta charset="utf-8">
@@ -8,7 +8,7 @@
         <link rel="stylesheet" type="text/css" th:href="@{/bootstrap.min.css}">
         <!-- sbb CSS -->
         <link rel="stylesheet" type="text/css" th:href="@{/style.css}">
-        <title>Hello, sbb!</title>
+        <title>Withus Board</title>
     </head>
     <body>
         <nav th:replace="~{navbar :: navbarFragment}"></nav>
@@ -17,5 +17,7 @@
         <!-- 기본 템플릿 안에 삽입될 내용 End -->
 
         <script th:src="@{/bootstrap.min.js}"></script>
+
+        <th:block layout:fragment="script"></th:block>
     </body>
 </html>

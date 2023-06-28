@@ -39,7 +39,7 @@
                         <span th:if="${question.author != null}" th:text="${question.author.username}"></span>
                     </td>
                     <!-- #temporals.format(날짜객체, 날짜포맷) - 날짜객체를 날짜포맷에 맞게 변환한다. -->
-                    <td th:text="${#temporals.format(question.createDate, 'yyyy-mm-dd HH:mm')}"></td>
+                    <td th:text="${#temporals.format(question.createDate, 'yyyy-MM-dd HH:mm')}"></td>
                 </tr>
             </tbody>
         </table>
