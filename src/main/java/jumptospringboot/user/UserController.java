@@ -53,4 +53,12 @@ public class UserController {
 
         return "redirect:/";
     }
+
+    // 로그인 GetMapping 생성 후 login_form.html 작성 -> UserRepository
+    // 데이터베이스에서 사용자를 조회하는 서비스(UserSecurityService)를 만들고 등록하기 전에
+    // UserSecurityService에서 필요한 UserRepository, UserRole 등을 먼저 준비
+    @GetMapping("/login")
+    public String login() {
+        return "login_form";
+    }
 }
