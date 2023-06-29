@@ -17,6 +17,10 @@ import javax.persistence.ManyToOne;
 import jumptospringboot.answer.Answer;
 import jumptospringboot.user.SiteUser;
 
+// 추천 기능에 필요한 라이브러리
+import java.util.Set;
+import javax.persistence.ManyToMany;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -44,4 +48,7 @@ public class Question {
     private SiteUser author;
 
     private LocalDateTime modifyDate;
+
+    @ManyToMany
+    Set<SiteUser> voter;
 }

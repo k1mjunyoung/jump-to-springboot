@@ -15,6 +15,10 @@ import lombok.Setter;
 
 import jumptospringboot.user.SiteUser;
 
+// 추천 기능에 필요한 라이브러리
+import java.util.Set;
+import javax.persistence.ManyToMany;
+
 @Getter
 @Setter
 @Entity
@@ -35,4 +39,8 @@ public class Answer {
     private SiteUser author;
 
     private LocalDateTime modifyDate;
+
+    // @ManyToMany 관계로 속성을 생성하면 새로운 테이블을 생성하여 데이터를 관리
+    @ManyToMany
+    Set<SiteUser> voter;
 }
