@@ -1,5 +1,6 @@
 package jumptospringboot.question;
 
+import org.springframework.data.jpa.repository.support.JpaRepositoryImplementation;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -22,10 +23,50 @@ import org.springframework.data.domain.Sort;
 
 import jumptospringboot.user.SiteUser;
 
+// 검색 기능 라이브러리
+import jumptospringboot.answer.Answer;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import org.springframework.data.jpa.domain.Specification;
+
 @RequiredArgsConstructor
 @Service
 public class QuestionService {
     private final QuestionRepository questionRepository;
+
+    private Specification<Question> search(String kw) {
+        return new Specification<>() {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            // q - Root, 즉 기준을 의미하는 Question 엔티티의 객체 (질문 제목과 내용을 검색하기 위해 필요)
+            public Predicate toPredicate(Root<Question> q, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                query.distinct(true); // 중복 제거
+                // u1 - Question 엔티티와 SiteUser 엔티티를 아우터 조인(JoinType.LEFT)하여 만든 SiteUser 엔티티의 객체.
+                // Question 엔티티와 SiteUser 엔티티는 author 속성으로 연결되어 있기 때문에 q.join("author")와 같이 조인
+                // (질문 작성자를 검색하기 위해 필요)
+                Join<Question, SiteUser> u1 = q.join("author", JoinType.LEFT);
+                // a - Question 엔티티와 Answer 엔티티를 아우터 조인하여 만든 Answer 엔티티의 객체.
+                // Question 엔티티와 Answer 엔티티는 answerList 속성으로 연결되어 있기 때문에 q.join("answerList")와 같이 조인
+                // (답변 내용을 검색하기 위해 필요)
+                Join<Question, Answer> a = q.join("answerList", JoinType.LEFT);
+                // u2 - 바로 위에서 작성한 a 객체와 다시 한번 SiteUser 엔티티와 아우터 조인하여 만든 SiteUser 엔티티의 객체
+                // (답변 작성자를 검색하기 위해서 필요)
+                Join<Answer, SiteUser> u2 = q.join("author", JoinType.LEFT);
+                return cb.or(
+                        cb.like(q.get("subject"), "%" + kw + "%"), // 질문 제목
+                        cb.like(q.get("content"), "%" + kw + "%"), // 질문 내용
+                        cb.like(u1.get("username"), "%" + kw + "%"), // 질문 작성자
+                        cb.like(a.get("content"), "%" + kw + "%"), // 답변 내용
+                        cb.like(u2.get("username"), "%" + kw + "%") // 답변 작성자
+                );
+            }
+        };
+    }
 
     /* 페이징 X
     public List<Question> getList() {
@@ -38,7 +79,7 @@ public class QuestionService {
     // Pageable 객체를 생성할때 사용한 PageRequest.of(page, 10)에서 page는 조회할 페이지의 번호이고
     // 10은 한 페이지에 보여줄 게시물의 갯수를 의미
     // -> Question 서비스의 getList 메서드의 입출력 구조가 변경되었으므로 Question 컨트롤러도 수정
-    public Page<Question> getList(int page) {
+    public Page<Question> getList(int page, String kw) {
         // 내림차순 조회
         // Sort.Order 객체로 구성된 리스트에 Sort.Order 객체를 추가하고 Sort.by(소트리스트)로 소트 객체를 생성
         List<Sort.Order> sorts = new ArrayList<>();
@@ -46,7 +87,11 @@ public class QuestionService {
 
         // 게시물을 역순으로 조회하기 위해서는 위와 같이 PageRequest.of 메서드의 세번째 파라미터로 Sort 객체를 전달
         Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
-        return this.questionRepository.findAll(pageable);
+        Specification<Question> spec = search(kw);
+
+        return this.questionRepository.findAll(spec, pageable);
+        // 쿼리 사용시
+        // return this.questionRepository.findAllByKeyword(kw, pageable);
     }
 
     public Question getQuestion(Integer id) {
