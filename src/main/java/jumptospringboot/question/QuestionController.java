@@ -59,9 +59,13 @@ public class QuestionController {
     }
     */
     @GetMapping("/list")
-    public String list(Model model, @RequestParam(value="page", defaultValue = "0") int page) {
-        Page<Question> paging = this.questionService.getList(page);
+    public String list(Model model, @RequestParam(value="page", defaultValue = "0") int page,
+                       @RequestParam(value = "kw", defaultValue = "") String kw) {
+
+        Page<Question> paging = this.questionService.getList(page, kw);
         model.addAttribute("paging", paging);
+        // 화면에서 입력한 검색어를 화면에 유지하기 위해 model.addAttribute("kw", kw)로 kw 값을 저장
+        model.addAttribute("kw", kw);
         return "question_list";
     }
 
