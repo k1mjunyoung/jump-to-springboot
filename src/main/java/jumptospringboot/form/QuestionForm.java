@@ -1,4 +1,4 @@
-package jumptospringboot.question;
+package jumptospringboot.form;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;

@@ -1,9 +1,9 @@
-package jumptospringboot.question;
+package jumptospringboot.repository;
 
 import java.util.List;
 
 // 리포지토리로 만들기 위해 JpaReprository 인터페이스 상속
-import jumptospringboot.question.Question;
+import jumptospringboot.entity.Question;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 // 페이징 라이브러리

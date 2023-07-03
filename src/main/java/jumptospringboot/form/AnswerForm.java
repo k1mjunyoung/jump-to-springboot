@@ -1,4 +1,4 @@
-package jumptospringboot.answer;
+package jumptospringboot.form;
 
 import javax.validation.constraints.NotEmpty;
 

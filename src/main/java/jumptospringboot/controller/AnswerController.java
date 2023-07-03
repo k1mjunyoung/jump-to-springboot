@@ -1,16 +1,17 @@
-package jumptospringboot.answer;
+package jumptospringboot.controller;
 
-import jumptospringboot.question.Question;
-import jumptospringboot.question.QuestionService;
+import jumptospringboot.entity.Answer;
+import jumptospringboot.form.AnswerForm;
+import jumptospringboot.service.AnswerService;
+import jumptospringboot.entity.Question;
+import jumptospringboot.service.QuestionService;
 
-import org.apache.tomcat.util.buf.Asn1Parser;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 import org.springframework.validation.BindingResult;

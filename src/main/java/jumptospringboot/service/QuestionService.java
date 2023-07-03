@@ -1,6 +1,7 @@
-package jumptospringboot.question;
+package jumptospringboot.service;
 
-import org.springframework.data.jpa.repository.support.JpaRepositoryImplementation;
+import jumptospringboot.entity.Question;
+import jumptospringboot.repository.QuestionRepository;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -18,13 +19,13 @@ import org.springframework.data.domain.PageRequest;
 
 // 내림차순 조회 라이브러리
 import java.util.ArrayList;
-import java.util.List;
+
 import org.springframework.data.domain.Sort;
 
 import jumptospringboot.user.SiteUser;
 
 // 검색 기능 라이브러리
-import jumptospringboot.answer.Answer;
+import jumptospringboot.entity.Answer;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;

@@ -1,6 +1,6 @@
 package jumptospringboot;
 
-import jumptospringboot.question.QuestionService;
+import jumptospringboot.service.QuestionService;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.beans.factory.annotation.Autowired;

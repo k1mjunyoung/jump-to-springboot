@@ -1,11 +1,13 @@
-package jumptospringboot.answer;
+package jumptospringboot.service;
 
 import jumptospringboot.DataNotFoundException;
+import jumptospringboot.entity.Answer;
+import jumptospringboot.repository.AnswerRepository;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 
-import jumptospringboot.question.Question;
+import jumptospringboot.entity.Question;
 
 import java.time.LocalDateTime;
 import java.util.Optional;

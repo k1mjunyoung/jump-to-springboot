@@ -1,6 +1,6 @@
-package jumptospringboot.answer;
+package jumptospringboot.repository;
 
-import jumptospringboot.question.Question;
+import jumptospringboot.entity.Answer;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface AnswerRepository extends JpaRepository<Answer, Integer> {

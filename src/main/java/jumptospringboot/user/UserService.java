@@ -1,6 +1,8 @@
 package jumptospringboot.user;
 
 // import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import jumptospringboot.user.SiteUser;
+import jumptospringboot.user.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import org.springframework.stereotype.Service;

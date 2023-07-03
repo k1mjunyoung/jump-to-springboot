@@ -1,5 +1,6 @@
 package jumptospringboot.user;
 
+import jumptospringboot.user.SiteUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
