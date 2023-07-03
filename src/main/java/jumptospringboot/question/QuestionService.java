@@ -1,5 +1,6 @@
 package jumptospringboot.question;
 
+import org.springframework.data.jpa.repository.support.JpaRepositoryImplementation;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -53,6 +54,7 @@ public class QuestionService {
                         cb.like(u1.get("username"), "%" + kw + "%"),    // 질문 작성자
                         cb.like(a.get("content"), "%" + kw + "%"),      // 답변 내용
                         cb.like(u2.get("username"), "%" + kw + "%"));   // 답변 작성자
+                );
             }
         };
     }
@@ -75,7 +77,7 @@ public class QuestionService {
 
         // 게시물을 역순으로 조회하기 위해서는 위와 같이 PageRequest.of 메서드의 세번째 파라미터로 Sort 객체를 전달
         Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
-
+      
         return this.questionRepository.findAllByKeyword(kw, pageable);
     }
 

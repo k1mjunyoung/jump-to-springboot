@@ -56,6 +56,7 @@ public class AnswerController {
         }
 
         Answer answer = this.answerService.create(question, answerForm.getContent(), siteUser);
+
         return String.format("redirect:/question/detail/%s#answer_%s", answer.getQuestion().getId(), answer.getId());
     }
 
