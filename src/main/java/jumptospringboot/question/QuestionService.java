@@ -43,31 +43,21 @@ public class QuestionService {
             private static final long serialVersionUID = 1L;
 
             @Override
-            // q - Root, 즉 기준을 의미하는 Question 엔티티의 객체 (질문 제목과 내용을 검색하기 위해 필요)
             public Predicate toPredicate(Root<Question> q, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                query.distinct(true); // 중복 제거
-                // u1 - Question 엔티티와 SiteUser 엔티티를 아우터 조인(JoinType.LEFT)하여 만든 SiteUser 엔티티의 객체.
-                // Question 엔티티와 SiteUser 엔티티는 author 속성으로 연결되어 있기 때문에 q.join("author")와 같이 조인
-                // (질문 작성자를 검색하기 위해 필요)
+                query.distinct(true);  // 중복을 제거
                 Join<Question, SiteUser> u1 = q.join("author", JoinType.LEFT);
-                // a - Question 엔티티와 Answer 엔티티를 아우터 조인하여 만든 Answer 엔티티의 객체.
-                // Question 엔티티와 Answer 엔티티는 answerList 속성으로 연결되어 있기 때문에 q.join("answerList")와 같이 조인
-                // (답변 내용을 검색하기 위해 필요)
                 Join<Question, Answer> a = q.join("answerList", JoinType.LEFT);
-                // u2 - 바로 위에서 작성한 a 객체와 다시 한번 SiteUser 엔티티와 아우터 조인하여 만든 SiteUser 엔티티의 객체
-                // (답변 작성자를 검색하기 위해서 필요)
-                Join<Answer, SiteUser> u2 = q.join("author", JoinType.LEFT);
+                Join<Answer, SiteUser> u2 = a.join("author", JoinType.LEFT);
                 return cb.or(
-                        cb.like(q.get("subject"), "%" + kw + "%"), // 질문 제목
-                        cb.like(q.get("content"), "%" + kw + "%"), // 질문 내용
-                        cb.like(u1.get("username"), "%" + kw + "%"), // 질문 작성자
-                        cb.like(a.get("content"), "%" + kw + "%"), // 답변 내용
-                        cb.like(u2.get("username"), "%" + kw + "%") // 답변 작성자
+                        cb.like(q.get("subject"), "%" + kw + "%"), // 제목
+                        cb.like(q.get("content"), "%" + kw + "%"),      // 내용
+                        cb.like(u1.get("username"), "%" + kw + "%"),    // 질문 작성자
+                        cb.like(a.get("content"), "%" + kw + "%"),      // 답변 내용
+                        cb.like(u2.get("username"), "%" + kw + "%"));   // 답변 작성자
                 );
             }
         };
     }
-
     /* 페이징 X
     public List<Question> getList() {
         return this.questionRepository.findAll();
@@ -87,11 +77,8 @@ public class QuestionService {
 
         // 게시물을 역순으로 조회하기 위해서는 위와 같이 PageRequest.of 메서드의 세번째 파라미터로 Sort 객체를 전달
         Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
-        Specification<Question> spec = search(kw);
-
-        return this.questionRepository.findAll(spec, pageable);
-        // 쿼리 사용시
-        // return this.questionRepository.findAllByKeyword(kw, pageable);
+      
+        return this.questionRepository.findAllByKeyword(kw, pageable);
     }
 
     public Question getQuestion(Integer id) {

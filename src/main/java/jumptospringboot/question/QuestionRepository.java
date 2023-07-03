@@ -10,13 +10,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-// 검색 라이브러리
+// 검색 기능 라이브러리
 import org.springframework.data.jpa.domain.Specification;
-
-// 쿼리 라이브러리
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-
 
 // JpaRepository<해당 엔티티의 타입, PK 속성 타입>
 public interface QuestionRepository extends JpaRepository<Question, Integer> {
@@ -30,7 +27,6 @@ public interface QuestionRepository extends JpaRepository<Question, Integer> {
 
     Page<Question> findAll(Specification<Question> spec, Pageable pageable);
 
-    // Specification 대신 쿼리 사용 시
     @Query("select "
             + "distinct q "
             + "from Question q "
