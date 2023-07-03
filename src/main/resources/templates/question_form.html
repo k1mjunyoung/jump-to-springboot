@@ -15,6 +15,14 @@
         <div th:replace="~{form_errors :: formErrorsFragment}"></div>
         <!-- name="subject", name="content"와 같이 사용하던 부분을 위와 같이 th:field 속성을 사용하도록 변경하였다. 이렇게 하면 해당 태그의 id, name, value 속성이 모두 자동으로 생성되고 타임리프가 value 속성에 기존 값을 채워 넣어 오류가 발생하더라도 기존에 입력한 값이 유지된다.
         -->
+        <div>
+            <select th:field="*{category}" class="form-select">
+                <option value="">카테고리를선택해주세요</option> <!--선택안한 비어있는값-->
+                <option value="공지사항">공지사항</option>
+                <option value="질문게시판">질문게시판</option>
+                <option value="나눔게시판">나눔게시판</option>
+            </select>
+        </div>
         <div class="mb-3">
             <label for="subject" class="form-lable">제목</label>
             <input type="text" th:field="*{subject}" class="form-control">

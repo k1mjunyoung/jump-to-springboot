@@ -16,6 +16,8 @@ spring:
         dialect: org.hibernate.dialect.H2Dialect
         show_sql: true
         format_sql: true
+  thymeleaf:
+    cache: false
 
 logging.level:
   org.hibernate.SQL: debug

@@ -16,6 +16,7 @@
             <thead class="table-dark">
             <tr class="text-center">
                 <th>번호</th>
+                <th>카테고리</th>
                 <th style="width:50%">제목</th>
                 <th>글쓴이</th>
                 <th>작성일시</th>
@@ -35,6 +36,8 @@
                 <tr class="text-center" th:each="question, loop : ${paging}">
                     <!-- 게시물 일련번호 추가 -->
                     <td th:text="${paging.getTotalElements - (paging.number * paging.size) - loop.index}"></td>
+                    <!--카테고리값 텍스트로출력-->
+                    <td><span th:text="${question.category}"></span></td>
                     <td class="text-start">
                         <!--question/detail/과 같은 문자열과 ${question.id}와 같은 자바 객체의 값을 더할 때는 반드시 다음처럼 |과 | 기호로 좌우를 감싸 주어야 한다.-->
                         <a th:href="@{|/question/detail/${question.id}|}" th:text="${question.subject}"></a>

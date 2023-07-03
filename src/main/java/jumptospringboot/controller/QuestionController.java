@@ -94,7 +94,7 @@ public class QuestionController {
 
         SiteUser siteUser = this.userService.getUser(principal.getName());
 
-        this.questionService.create(questionForm.getSubject(), questionForm.getContent(), siteUser);
+        this.questionService.create(questionForm.getSubject(), questionForm.getContent(), siteUser, questionForm.getCategory());
         return "redirect:/question/list";
     }
 
@@ -108,6 +108,7 @@ public class QuestionController {
         // 수정할 질문의 제목과 내용을 화면에 보여주기 위해 questionForm 객체에 값을 담아서 템플릿으로 전달 -> question_form.html
         questionForm.setSubject(question.getSubject());
         questionForm.setContent(question.getContent());
+        questionForm.setCategory(question.getCategory());
         return "question_form";
     }
 
@@ -125,7 +126,7 @@ public class QuestionController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
         }
 
-        this.questionService.modify(question, questionForm.getSubject(), questionForm.getContent());
+        this.questionService.modify(question, questionForm.getSubject(), questionForm.getContent(), questionForm.getCategory());
 
         return String.format("redirect:/question/detail/%s", id);
     }
